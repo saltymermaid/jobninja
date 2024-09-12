@@ -28,6 +28,18 @@
     <% end %>
   </div>
 
+  <% if @role.employer_id %>
+    <%= form.hidden_field :employer_id %>
+  <% else %>
+    <div>
+      <%= form.label :employer_id, "Employer" %><br>
+      <%= form.collection_select :employer_id, Employer.all, :id, :name, { prompt: "Select an employer" } %>
+      <% @role.errors.full_messages_for(:employer).each do |message| %>
+        <div><%= message %></div>
+      <% end %>
+    </div>
+  <% end %>
+
   <div>
     <%= form.submit %>
   </div>

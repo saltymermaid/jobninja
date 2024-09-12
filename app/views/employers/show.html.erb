@@ -1,17 +1,32 @@
 <h1><%= @employer.name %></h1>
 
-<% if @employer.url.present? %>
-  <p>
-    <%= link_to "See this employer", @employer.url, target: "_blank" %>
-  </p>
+<p><%= link_to "See this employer", @employer.url, target: "_blank" if @employer.url.present? %></p>
+
+<p><%= link_to "See open roles", @employer.jobs_url, target: "_blank"if @employer.jobs_url.present? %></p>
+
+<h2>Roles at <%= @employer.name %></h2>
+
+<% if @employer.roles.any? %>
+  <ul>
+    <% @employer.roles.each do |role| %>
+      <li>
+        <%= link_to role.title, role_path(role) %>
+        <% if role.location.present? %>
+          - <%= role.location %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No roles currently listed for this employer.</p>
 <% end %>
 
-<% if @employer.jobs_url.present? %>
-  <p>
-    <%= link_to "See open roles", @employer.jobs_url, target: "_blank" %>
-  </p>
-<% end %>
+<%= link_to "Edit", edit_employer_path(@employer) %> |
+<%= link_to "Delete", employer_path(@employer), 
+            data: { 
+              turbo_method: :delete, 
+              turbo_confirm: "Are you sure? This will also delete all associated roles for this employer." 
+            } %> |
+<%= link_to "Back", employers_path %> |
 
-<%= link_to "Edit", edit_employer_path(@employer) %>
-<%= link_to "Delete", employer_path(@employer), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
-<%= link_to "Back", employers_path %>
+<%= link_to "Add New Role", new_role_path(employer_id: @employer.id) %>

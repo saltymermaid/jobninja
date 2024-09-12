@@ -1,25 +1,16 @@
 <h1><%= @role.title %></h1>
-<p>
-  <a href=<%= @role.url %>  target="_blank">
-    See this role
-  </a>
-</p>
+<p>Employer: <%= link_to @role.employer.name, employer_path(@role.employer) %></p>
+<p><%= link_to "Original Job Posting", @role.url, target: "_blank" %></p>
 <p>Location: <%= @role.location %>
 <p>Description: <%= @role.description %></p>
 
 
-<ul>
-  <li>
-    <%= link_to "Edit", edit_role_path(@role) %>
-  </li>
-  <li>
-    <%= link_to "Delete", role_path(@role),
-                data: { 
-                  turbo_method: :delete,
-                  confirm: "Are you sure?"
-                  } %>
-  </li>
-  <li>
-    <%= link_to "Back", roles_path %>
-  </li>
-</ul>
+
+<%= link_to "Edit", edit_role_path(@role) %> |
+<%= link_to "Delete", role_path(@role),
+            data: { 
+              turbo_method: :delete,
+              confirm: "Are you sure?"
+              } %> |
+<%= link_to "Back", roles_path %>
+

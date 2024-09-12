@@ -8,14 +8,14 @@ class RolesController < ApplicationController
   end
 
   def new
-    @role = Role.new
+    @role = Role.new(employer_id: params[:employer_id])
   end
 
   def create
     @role = Role.new(role_params)
 
     if @role.save
-      redirect_to roles_path
+      redirect_to roles_path, notice: "Role was successfully created."
     else
       render :new, status: :unprocessable_entity
     end
@@ -26,7 +26,7 @@ class RolesController < ApplicationController
 
   def update
     if @role.update(role_params)
-      redirect_to roles_path
+      redirect_to roles_path, notice: "Role was successfully updated."
     else
       render :edit, status: :unprocessable_entity
     end
@@ -35,7 +35,7 @@ class RolesController < ApplicationController
   def destroy
     @role.destroy
 
-    redirect_to roles_path
+    redirect_to roles_path, notice: "Role was successfully deleted."
   end
 
   private
@@ -45,6 +45,6 @@ class RolesController < ApplicationController
   end
 
   def role_params
-    params.require(:role).permit(:title, :url, :location, :description)
+    params.require(:role).permit(:title, :url, :location, :description, :employer_id)
   end
 end

@@ -1,0 +1,17 @@
+<h1><%= @employer.name %></h1>
+
+<% if @employer.url.present? %>
+  <p>
+    <%= link_to "See this employer", @employer.url, target: "_blank" %>
+  </p>
+<% end %>
+
+<% if @employer.jobs_url.present? %>
+  <p>
+    <%= link_to "See open roles", @employer.jobs_url, target: "_blank" %>
+  </p>
+<% end %>
+
+<%= link_to "Edit", edit_employer_path(@employer) %>
+<%= link_to "Delete", employer_path(@employer), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+<%= link_to "Back", employers_path %>

@@ -1,10 +1,10 @@
 class RolesController < ApplicationController
+  before_action :set_role, only: %i[show edit update destroy]
   def index
     @roles = Role.all
   end
 
   def show
-    @role = Role.find(params[:id])
   end
 
   def new
@@ -22,12 +22,9 @@ class RolesController < ApplicationController
   end
 
   def edit
-    @role = Role.find(params[:id])
   end
 
   def update
-    @role = Role.find(params[:id])
-
     if @role.update(role_params)
       redirect_to roles_path
     else
@@ -36,13 +33,16 @@ class RolesController < ApplicationController
   end
 
   def destroy
-    @role = Role.find(params[:id])
     @role.destroy
 
     redirect_to roles_path
   end
 
   private
+
+  def set_role
+    @role = Role.find(params[:id])
+  end
 
   def role_params
     params.require(:role).permit(:title, :url, :location, :description)
